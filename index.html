@@ -58,14 +58,16 @@
     </div>
 
     <script>
-    const apiKey = 'csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0'; // Setze hier deinen Finnhub-API-Schlüssel ein
+    const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+    api_key.apiKey = "csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0"
+    const finnhubClient = new finnhub.DefaultApi()
     const symbol = 'DTE.DE'; // Symbol für Deutsche Telekom
 
     // Funktion zum Abrufen des Live-Preises und Jahresverlaufs über die Finnhub API
     async function fetchStockData() {
         try {
             // Abrufen des aktuellen Preises
-            const quoteResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`);
+            const quoteResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0}`);
             const quoteData = await quoteResponse.json();
             document.getElementById('price').textContent = quoteData.c + ' $'; // 'c' ist der aktuelle Preis
 
@@ -78,7 +80,7 @@
             const from = Math.floor(lastYear.getTime() / 1000); // Unix-Zeit für letztes Jahr
             const to = Math.floor(today.getTime() / 1000); // Unix-Zeit für heute
 
-            const historyResponse = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${resolution}&from=${from}&to=${to}&token=${apiKey}`);
+            const historyResponse = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${resolution}&from=${from}&to=${to}&token=${csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0}`);
             const historyData = await historyResponse.json();
 
             if (historyData.s === 'ok') {
