@@ -3,94 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktienkurs der Deutschen Bahn</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Aktienkurs der Deutschen Bahn</h1>
-
-        <!-- Bereich für den Live-Aktienkurs -->
-        <div id="live-price">
-            <h2>Aktueller Kurs</h2>
-            <p id="price">Loading...</p>
-        </div>
-
-        <!-- Bereich für den Aktienkursverlauf -->
-        <div id="chart-container">
-            <h2>Aktienkursverlauf (3 Monate)</h2>
-            <canvas id="priceChart"></canvas>
-        </div>
-    </div>
-
-    <script>
-    // Funktion zum Abrufen des Live-Preises und Verlaufs über die PHP-Datei
-    async function fetchLivePrice() {
-        try {
-            const response = await fetch('get_stock_data.php');
-            const data = await response.json();
-
-            // Live-Preis anzeigen
-            document.getElementById('price').textContent = data.currentPrice + ' €';
-
-            // Daten in das Chart.js Diagramm laden
-            updateChart(data.historicalData);
-        } catch (error) {
-            document.getElementById('price').textContent = 'Daten nicht verfügbar';
-        }
-    }
-
-    // Funktion zum Aktualisieren des Diagramms mit API-Daten
-    function updateChart(historicalData) {
-        const labels = historicalData.map(entry => entry.date); // Datumswerte
-        const prices = historicalData.map(entry => entry.price); // Kurswerte
-
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Aktienkurs in €',
-                    data: prices,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: false
-                    }
-                }
-            }
-        });
-    }
-
-    // Initiale Daten laden
-    fetchLivePrice();
-
-    // Live-Aktienkurs alle 30 Sekunden aktualisieren
-    setInterval(fetchLivePrice, 30000);
-</script>
-
-
-</body>
-</html>
-=======
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktienkurs der Deutschen Bahn</title>
+    <title>Aktienkurs der Deutschen Telekom</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,7 +42,7 @@
 <body>
 
     <div class="container">
-        <h1>Aktienkurs der Deutschen Bahn</h1>
+        <h1>Aktienkurs der Deutschen Telekom</h1>
 
         <!-- Bereich für den Live-Aktienkurs -->
         <div id="live-price">
@@ -139,7 +52,7 @@
 
         <!-- Bereich für den Aktienkursverlauf -->
         <div id="chart-container">
-            <h2>Aktienkursverlauf (3 Monate)</h2>
+            <h2>Aktienkursverlauf (1 Jahr)</h2>
             <canvas id="priceChart"></canvas>
         </div>
     </div>
@@ -198,8 +111,6 @@
 
     // Live-Aktienkurs alle 30 Sekunden aktualisieren
     setInterval(fetchLivePrice, 30000);
-</script>
-
-
+    </script>
 </body>
 </html>

@@ -1,42 +1,31 @@
 <?php
-header('Content-Type: application/json');
+require_once(__DIR__ . '/vendor/autoload.php');
 
-// Beispiel-URL der API (hier muss die echte URL der Aktienkurs-API rein)
-$api_url = 'https://api.example.com/stockprice/DB'; // Ersetze durch echte API-URL
-$api_key = 'DEIN_API_KEY'; // Optional: Falls ein API-Schlüssel nötig ist
+// Finnhub API-Schlüssel
+$api_key = csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0;
 
-// API-Anfrage
-$response = file_get_contents($api_url . "?apikey=" . $api_key);
-$data = json_decode($response, true);
+// Finnhub-Konfiguration einrichten
+$config = Finnhub\Configuration::getDefaultConfiguration()->setApiKey('token', $api_key);
+$client = new Finnhub\Api\DefaultApi(new GuzzleHttp\Client(), $config);
 
-// Beispielhafte Datenstruktur anpassen
-$aktueller_kurs = $data['currentPrice'] ?? 'Nicht verfügbar';
-$kurs_verlauf = $data['historicalData'] ?? [];
+// Symbol der Deutschen Telekom
+$symbol = 'DTE.DE'; // Börsensymbol der Deutschen Telekom an der Frankfurter Börse
 
-// JSON-Antwort ausgeben
-echo json_encode([
-    'currentPrice' => $aktueller_kurs,
-    'historicalData' => $kurs_verlauf
-]);
-=======
-<?php
-header('Content-Type: application/json');
+try {
+    // Abrufen des aktuellen Aktienkurses
+    $quote = $client->quote($symbol);
+    $currentPrice = $quote->getC(); // Aktueller Preis
+    $highPrice = $quote->getH();    // Tageshöchstpreis
+    $lowPrice = $quote->getL();     // Tagestiefstpreis
+    $openPrice = $quote->getO();    // Eröffnungspreis
+    $previousClose = $quote->getPc(); // Schlusskurs des Vortages
 
-// Beispiel-URL der API (hier muss die echte URL der Aktienkurs-API rein)
-$api_url = 'https://api.example.com/stockprice/DB'; // Ersetze durch echte API-URL
-$api_key = 'DEIN_API_KEY'; // Optional: Falls ein API-Schlüssel nötig ist
-
-// API-Anfrage
-$response = file_get_contents($api_url . "?apikey=" . $api_key);
-$data = json_decode($response, true);
-
-// Beispielhafte Datenstruktur anpassen
-$aktueller_kurs = $data['currentPrice'] ?? 'Nicht verfügbar';
-$kurs_verlauf = $data['historicalData'] ?? [];
-
-// JSON-Antwort ausgeben
-echo json_encode([
-    'currentPrice' => $aktueller_kurs,
-    'historicalData' => $kurs_verlauf
-]);
+    echo "Aktueller Preis der Deutschen Telekom (DTE.DE): €" . $currentPrice . "\n";
+    echo "Tageshöchstpreis: €" . $highPrice . "\n";
+    echo "Tagestiefstpreis: €" . $lowPrice . "\n";
+    echo "Eröffnungspreis: €" . $openPrice . "\n";
+    echo "Schlusskurs des Vortages: €" . $previousClose . "\n";
+} catch (Exception $e) {
+    echo 'Fehler bei der Abfrage: ', $e->getMessage(), PHP_EOL;
+}
 ?>
