@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 header('Content-Type: application/json');
 
@@ -40,5 +39,4 @@ echo json_encode([
     'currentPrice' => $aktueller_kurs,
     'historicalData' => $kurs_verlauf
 ]);
->>>>>>> 6c609c35e6f0ebc68e04a071bbfb9252089c5673
 ?>
