@@ -58,26 +58,48 @@
     </div>
 
     <script>
-    // Funktion zum Abrufen des Live-Preises und Verlaufs über die PHP-Datei
-    async function fetchLivePrice() {
+    const apiKey = csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0; // Setze hier deinen Finnhub-API-Schlüssel ein
+    const symbol = 'DTE.DE'; // Symbol für Deutsche Telekom
+
+    // Funktion zum Abrufen des Live-Preises und Jahresverlaufs über die Finnhub API
+    async function fetchStockData() {
         try {
-            const response = await fetch('get_stock_data.php');
-            const data = await response.json();
+            // Abrufen des aktuellen Preises
+            const quoteResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`);
+            const quoteData = await quoteResponse.json();
+            document.getElementById('price').textContent = quoteData.c + ' €'; // 'c' ist der aktuelle Preis
 
-            // Live-Preis anzeigen
-            document.getElementById('price').textContent = data.currentPrice + ' €';
+            // Abrufen der historischen Daten (1 Jahr zurück)
+            const today = new Date();
+            const lastYear = new Date(today);
+            lastYear.setFullYear(today.getFullYear() - 1);
 
-            // Daten in das Chart.js Diagramm laden
-            updateChart(data.historicalData);
+            const resolution = 'D'; // Tagesauflösung
+            const from = Math.floor(lastYear.getTime() / 1000); // Unix-Zeit für letztes Jahr
+            const to = Math.floor(today.getTime() / 1000); // Unix-Zeit für heute
+
+            const historyResponse = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${resolution}&from=${from}&to=${to}&token=${apiKey}`);
+            const historyData = await historyResponse.json();
+
+            if (historyData.s === 'ok') {
+                updateChart(historyData);
+            } else {
+                console.error("Fehler beim Abrufen der historischen Daten");
+            }
         } catch (error) {
+            console.error("Fehler beim Abrufen der Daten:", error);
             document.getElementById('price').textContent = 'Daten nicht verfügbar';
         }
     }
 
-    // Funktion zum Aktualisieren des Diagramms mit API-Daten
-    function updateChart(historicalData) {
-        const labels = historicalData.map(entry => entry.date); // Datumswerte
-        const prices = historicalData.map(entry => entry.price); // Kurswerte
+    // Funktion zum Aktualisieren des Diagramms mit den historischen Daten
+    function updateChart(historyData) {
+        const labels = historyData.t.map(timestamp => {
+            const date = new Date(timestamp * 1000); // Unix-Timestamp in Millisekunden
+            return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+        });
+
+        const prices = historyData.c; // Schlusskurse
 
         const ctx = document.getElementById('priceChart').getContext('2d');
         new Chart(ctx, {
@@ -96,7 +118,7 @@
                 responsive: true,
                 scales: {
                     x: {
-                        beginAtZero: true
+                        beginAtZero: false
                     },
                     y: {
                         beginAtZero: false
@@ -107,10 +129,10 @@
     }
 
     // Initiale Daten laden
-    fetchLivePrice();
+    fetchStockData();
 
     // Live-Aktienkurs alle 30 Sekunden aktualisieren
-    setInterval(fetchLivePrice, 30000);
+    setInterval(fetchStockData, 30000);
     </script>
 </body>
 </html>
