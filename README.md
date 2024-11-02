@@ -1,1 +1,1 @@
-# AchimK-dev.github.io
+This is an test Project that shows you the realtime and historical stock prices of a few Companys in Germany, USA, Great Britain and France.
