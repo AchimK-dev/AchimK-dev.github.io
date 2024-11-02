@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aktienkurse - Home</title>
+    <title>Stock Overview</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Cabin_Sketch:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
     body {
         font-family: 'Roboto', sans-serif;
@@ -36,26 +37,25 @@
 	
     /* Header */
     .header {
-    background-color: rgba(24, 39, 58, 0.8);
-    background-image: url('header-background.jpg'); /* Pfad zum Bild */
-    background-size: cover; /* Bild auf die Größe des Headers skalieren */
-    background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
-    padding: 40px;
-    text-align: center;
-    color: #fff;
-	font-size: 2em;
-	margin: 0;
-	text-shadow: 
-        1px 1px 0 #000,  /* Schatten rechts unten */
-       -1px 1px 0 #000,  /* Schatten links unten */
-        1px -1px 0 #000,  /* Schatten rechts oben */
-       -1px -1px 0 #000;  /* Schatten links oben */
+		position: relative;
+		background-color: rgba(24, 39, 58, 0.8);
+		background-image: url('header-background.jpg'); /* Hintergrundbild */
+		background-size: cover; /* Bild auf die Größe des Headers skalieren */
+		background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
+		padding: 40px;
+		text-align: center;
+		color: #fff;
+		font-size: 2em;
+		margin: 0;
 	}
 
-    .header h1 {
-        margin: 0;
-        font-size: 4em;
-    }
+	.title-image {
+		display: block;
+		margin: 0 auto;
+		max-width: 50%; /* Größe des Titelbildes anpassen */
+		height: auto;
+		margin-bottom: 20px; /* Abstand unter dem Bild */
+	}
 
 	.spacebar {
 		width: 100%; 
@@ -108,12 +108,13 @@
     .container {
 		position: relative;
         max-width: 1200px;
+		min-width: 1200px;
         margin: 40px auto;
         padding: 20px;
         border-radius:15px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 1);
         color: #fff;
-		overflow: hidden;
+		overflow: visible;
     }
 	
 	.container::before {
@@ -123,6 +124,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
+		border-radius:15px;
 		background-color: rgba(24, 39, 58, 0.8); /* Halbtransparente Hintergrundfarbe */
 		background-image: url('header-background.jpg'); /* Bild hinzufügen */
 		background-size: cover; /* Bild auf die Größe des Containers skalieren */
@@ -221,45 +223,149 @@
         #priceChart {
             padding: 10px;
         }
+		
+
     }
-	
+	html, body {
+		height: 100%;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Inhaltselement */
+	.content {
+		flex: 1; /* Nimmt den gesamten verfügbaren Platz ein */
+		padding: 20px;
+	}
+
+	/* Fußzeile */
+	.footer {
+		background-color: rgba(24, 39, 58, 0.8);
+		background-image: url('header-background.jpg'); /* Hintergrundbild */
+		background-size: cover; /* Bild auf die Größe des Headers skalieren */
+		background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
+		color: rgba(255, 255, 255, 0.7); /* Textfarbe */
+		text-shadow: 
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts unten */
+       -0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten links unten */
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts oben */
+       -0.5px -0.5px 0 rgba(0, 0, 0, 0.5);  /* Schatten links oben */
+		padding: 20px 0;
+		text-align: center;
+		font-size: 0.9em;
+		margin-top: auto; /* Schiebt die Fußzeile an das Ende */
+	}
+
+	.footer-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+
+	.footer p {
+		margin: 0;
+		padding: 10px 0;
+	}
+
+	.footer-links {
+		margin-top: 10px;
+	}
+
+	.footer-links a {
+		color: rgba(152, 126, 77, 1); /* Farbe für Links in der Fußzeile */
+		text-decoration: none;
+		margin: 0 15px;
+		font-weight: bold;
+			text-shadow: 
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts unten */
+       -0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten links unten */
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts oben */
+       -0.5px -0.5px 0 rgba(0, 0, 0, 0.5);  /* Schatten links oben */
+	}
+
+	.footer-links a:hover {
+		text-decoration: underline;
+	}
 </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
     <!-- Header -->
-    <div class="header">
-        <h1>EverTrend</h1>
-    </div>
+	<div class="header">
+		<a href="index.html">
+			<img src="Title.png" class="title-image" alt="Titelbild">
+		</a>
+	</div>
 
     <!-- Navigation -->
     <div class="navbar">
         <a href="index.html" class="active">Home</a>
         <a href="stock-overview.html">Stock Overview</a>
-        <a href="contact.html">Contact</a>
+        <a href="news.html">News</a>
     </div>
 
     <!-- Hauptinhalt -->
     <div class="container">
-        <h2>Track Real-Time Stock Prices and Empower Your Financial Future</h2>
-        <p>Welcome to our platform, where staying informed about the stock market is just the beginning. 
-		Access real-time stock prices, market trends, and the latest financial insights—all designed to help you make smarter investment decisions. 
-		Your journey to financial success starts here.</p>
-    </div>
+    <h2>Welcome to EverTrend</h2>
+    <p>
+        EverTrend is your go-to source for up-to-date information and analysis on stock markets worldwide. Our goal is to provide you as an investor with reliable insights and tools to make confident investment decisions.
+    </p>
+    <img src="image1.jpg" alt="Stock Market" class="content-image">
+	</div>
+
 	<div class="container">
-        <h2>Understanding the Basics of Stock Market Investing</h2>
-        <p>The stock market can seem daunting, but it’s one of the most accessible and powerful tools for growing wealth. 
-		In this guide, we cover the basics of stocks, how the market works, and what new investors need to know. 
-		From understanding common terms like "bull" and "bear markets" to learning the differences between types of stocks (e.g., blue-chip, growth, and dividend stocks), 
-		this article provides a solid foundation. Our goal is to help you make more informed decisions as you begin your investment journey.
+		<h2>About Us</h2>
+		<p>
+			At EverTrend, we believe that knowledge is the key to success. Our team is made up of financial experts, analysts, and market researchers dedicated to bringing you the latest trends and insights into global financial markets. Our platform is designed to help both seasoned investors and beginners enhance their portfolios with the best information available.
 		</p>
-    </div>
+		<img src="image2.jpg" alt="Team of Experts" class="content-image">
+	</div>
+
 	<div class="container">
-        <h2>Smart Saving Strategies for Every Financial Stage of Life</h2>
-        <p>From young professionals to retirees, everyone can benefit from smart saving strategies tailored to their unique financial situations. 
-		This article covers savings advice for different life stages: building an emergency fund, saving for a home, funding education, and planning for retirement. 
-		Along the way, we explore ways to save more effectively and prioritize goals. Discover practical steps you can take today to ensure a secure and stress-free financial future.
+		<h2>Our Services</h2>
+		<p>
+			We offer a variety of services tailored to the needs of our users. These include:
 		</p>
-    </div>
+		<ul>
+			<li><strong>Live Stock Prices:</strong> Track current prices in real-time and stay informed.</li>
+			<li><strong>Historical Data:</strong> Analyze stock trends over days, months, or years.</li>
+			<li><strong>Market Reports:</strong> Receive regular updates on market movements and trends.</li>
+			<li><strong>Personalized Advice:</strong> Contact one of our experts for tailored advice.</li>
+		</ul>
+		<img src="image3.jpg" alt="Services" class="content-image">
+	</div>
+
+	<div class="container">
+		<h2>Our Vision</h2>
+		<p>
+			Our vision at EverTrend is to make the world of investing more accessible and transparent. We want everyone, regardless of their experience, to have the opportunity to invest in markets and make informed decisions. This is why we focus on innovation, user-friendliness, and continuous education.
+		</p>
+		<img src="image4.jpg" alt="Vision" class="content-image">
+	</div>
+
+	<div class="container">
+		<h2>Why Choose EverTrend?</h2>
+		<p>
+			There are many reasons why EverTrend is the right choice for you. Our platform is user-friendly, and our dedicated team strives to provide you with the best financial information available. We also offer advanced tools to help you manage your investments more effectively. Our strength lies in our commitment to accuracy and relevance, keeping you one step ahead.
+		</p>
+		<img src="image5.jpg" alt="Why EverTrend" class="content-image">
+	</div>
+
+
 </body>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2024 EverTrend. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+</footer>
 </html>

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Cabin_Sketch:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
     body {
         font-family: 'Roboto', sans-serif;
@@ -36,26 +37,25 @@
 	
     /* Header */
     .header {
-    background-color: rgba(24, 39, 58, 0.8);
-    background-image: url('header-background.jpg'); /* Pfad zum Bild */
-    background-size: cover; /* Bild auf die Größe des Headers skalieren */
-    background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
-    padding: 40px;
-    text-align: center;
-    color: #fff;
-	font-size: 2em;
-	margin: 0;
-	text-shadow: 
-        1px 1px 0 #000,  /* Schatten rechts unten */
-       -1px 1px 0 #000,  /* Schatten links unten */
-        1px -1px 0 #000,  /* Schatten rechts oben */
-       -1px -1px 0 #000;  /* Schatten links oben */
+		position: relative;
+		background-color: rgba(24, 39, 58, 0.8);
+		background-image: url('header-background.jpg'); /* Hintergrundbild */
+		background-size: cover; /* Bild auf die Größe des Headers skalieren */
+		background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
+		padding: 40px;
+		text-align: center;
+		color: #fff;
+		font-size: 2em;
+		margin: 0;
 	}
 
-    .header h1 {
-        margin: 0;
-        font-size: 4em;
-    }
+	.title-image {
+		display: block;
+		margin: 0 auto;
+		max-width: 50%; /* Größe des Titelbildes anpassen */
+		height: auto;
+		margin-bottom: 20px; /* Abstand unter dem Bild */
+	}
 
 	.spacebar {
 		width: 100%; 
@@ -108,12 +108,13 @@
     .container {
 		position: relative;
         max-width: 1200px;
+		min-width: 1200px;
         margin: 40px auto;
         padding: 20px;
         border-radius:15px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 1);
         color: #fff;
-		overflow: hidden;
+		overflow: visible;
     }
 	
 	.container::before {
@@ -123,6 +124,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
+		border-radius:15px;
 		background-color: rgba(24, 39, 58, 0.8); /* Halbtransparente Hintergrundfarbe */
 		background-image: url('header-background.jpg'); /* Bild hinzufügen */
 		background-size: cover; /* Bild auf die Größe des Containers skalieren */
@@ -223,6 +225,69 @@
         }
     }
 	
+	html, body {
+		height: 100%;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Inhaltselement */
+	.content {
+		flex: 1; /* Nimmt den gesamten verfügbaren Platz ein */
+		padding: 20px;
+	}
+
+	/* Fußzeile */
+	.footer {
+		background-color: rgba(24, 39, 58, 0.8);
+		background-image: url('header-background.jpg'); /* Hintergrundbild */
+		background-size: cover; /* Bild auf die Größe des Headers skalieren */
+		background-blend-mode: overlay; /* Mischt das Bild mit der Hintergrundfarbe */
+		color: rgba(255, 255, 255, 0.7); /* Textfarbe */
+		text-shadow: 
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts unten */
+       -0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten links unten */
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts oben */
+       -0.5px -0.5px 0 rgba(0, 0, 0, 0.5);  /* Schatten links oben */
+		padding: 20px 0;
+		text-align: center;
+		font-size: 0.9em;
+		margin-top: auto; /* Schiebt die Fußzeile an das Ende */
+	}
+
+	.footer-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+
+	.footer p {
+		margin: 0;
+		padding: 10px 0;
+	}
+
+	.footer-links {
+		margin-top: 10px;
+	}
+
+	.footer-links a {
+		color: rgba(152, 126, 77, 1); /* Farbe für Links in der Fußzeile */
+		text-decoration: none;
+		margin: 0 15px;
+		font-weight: bold;
+			text-shadow: 
+        0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts unten */
+       -0.5px 0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten links unten */
+        0.5px -0.5px 0 rgba(0, 0, 0, 0.5),  /* Schatten rechts oben */
+       -0.5px -0.5px 0 rgba(0, 0, 0, 0.5);  /* Schatten links oben */
+	}
+
+	.footer-links a:hover {
+		text-decoration: underline;
+	}
+	
+	
 </style>
 
 
@@ -231,9 +296,11 @@
 <body>
 
     <!-- Header -->
-    <div class="header">
-        <h1>EverTrend</h1>
-    </div>
+	<div class="header">
+		<a href="index.html">
+			<img src="Title.png" class="title-image" alt="Titelbild">
+		</a>
+	</div>
 
 	<div class="spacebar">
     </div>
@@ -242,7 +309,7 @@
     <div class="navbar">
         <a href="index.html">Home</a>
         <a href="stock-overview.html" class="active">Stock Overview</a>
-        <a href="contact.html">Contact</a>
+        <a href="news.html">News</a>
     </div>
 	
 	<div class="spacebar">
@@ -483,4 +550,16 @@
     updateCompanyList();
     </script>
 </body>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2024 EverTrend. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+</footer>
+
 </html>
