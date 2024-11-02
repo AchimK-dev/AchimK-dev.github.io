@@ -58,83 +58,63 @@
     </div>
 
     <script>
-    const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-    api_key.apiKey = "csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0"
-    const finnhubClient = new finnhub.DefaultApi()
-    const symbol = 'DTE.DE'; // Symbol für Deutsche Telekom
+// Funktion zum Abrufen der Echtzeitdaten über Alpha Vantage
+async function fetchLiveData() {
+    const symbol = 'DTE.DE'; // Symbol für die Deutsche Telekom
+    const alphaVantageKey = 'GPBLOCO6FXONQBXS'; // Alpha Vantage API-Schlüssel
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${alphaVantageKey}`;
 
-    // Funktion zum Abrufen des Live-Preises und Jahresverlaufs über die Finnhub API
-    async function fetchStockData() {
-        try {
-            // Abrufen des aktuellen Preises
-            const quoteResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0}`);
-            const quoteData = await quoteResponse.json();
-            document.getElementById('price').textContent = quoteData.c + ' $'; // 'c' ist der aktuelle Preis
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log("Live-Daten:", result);
 
-            // Abrufen der historischen Daten (1 Jahr zurück)
-            const today = new Date();
-            const lastYear = new Date(today);
-            lastYear.setFullYear(today.getFullYear() - 1);
-
-            const resolution = 'D'; // Tagesauflösung
-            const from = Math.floor(lastYear.getTime() / 1000); // Unix-Zeit für letztes Jahr
-            const to = Math.floor(today.getTime() / 1000); // Unix-Zeit für heute
-
-            const historyResponse = await fetch(`https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=${resolution}&from=${from}&to=${to}&token=${csiaoe1r01qpalorrqtgcsiaoe1r01qpalorrqu0}`);
-            const historyData = await historyResponse.json();
-
-            if (historyData.s === 'ok') {
-                updateChart(historyData);
-            } else {
-                console.error("Fehler beim Abrufen der historischen Daten");
-            }
-        } catch (error) {
-            console.error("Fehler beim Abrufen der Daten:", error);
+        if (result['Global Quote'] && result['Global Quote']['05. price']) {
+            const livePrice = result['Global Quote']['05. price'];
+            document.getElementById('price').textContent = livePrice + ' €';
+        } else {
+            console.error("Keine Live-Preisdaten verfügbar");
             document.getElementById('price').textContent = 'Daten nicht verfügbar';
         }
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Live-Daten:", error);
+        document.getElementById('price').textContent = 'Daten nicht verfügbar';
     }
+}
 
-    // Funktion zum Aktualisieren des Diagramms mit den historischen Daten
-    function updateChart(historyData) {
-        const labels = historyData.t.map(timestamp => {
-            const date = new Date(timestamp * 1000); // Unix-Timestamp in Millisekunden
-            return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-        });
+// Funktion zum Abrufen der historischen Daten über Yahoo Finance
+async function fetchHistoricalData() {
+    const yahooFinanceKey = ''; // Yahoo Finance API-Schlüssel für historische Daten
+    const url = 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v3/get-historical-data?symbol=DTE.DE&region=DE';
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': yahooFinanceKey,
+            'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+        }
+    };
 
-        const prices = historyData.c; // Schlusskurse
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        console.log("Historische Daten:", result);
 
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Aktienkurs in $',
-                    data: prices,
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        beginAtZero: false
-                    },
-                    y: {
-                        beginAtZero: false
-                    }
-                }
-            }
-        });
+        if (result.prices) {
+            updateChart(result.prices);
+        } else {
+            console.error("Keine historischen Preisdaten gefunden");
+            document.getElementById('price').textContent = 'Daten nicht verfügbar';
+        }
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Daten:", error);
+        document.getElementById('price').textContent = 'Daten nicht verfügbar';
     }
+}
 
-    // Initiale Daten laden
-    fetchStockData();
+// Funktionsaufrufe
+fetchLiveData();
+fetchHistoricalData();
 
-    // Live-Aktienkurs alle 30 Sekunden aktualisieren
-    setInterval(fetchStockData, 30000);
     </script>
 </body>
 </html>
