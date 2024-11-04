@@ -25,7 +25,7 @@ body::before {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    width: 100vw;
     padding: 20px;
     box-sizing: border-box;
 }
@@ -43,13 +43,14 @@ body::before {
     color: #fff;
     font-size: 2em;
     margin: 0;
+	box-sizing: border-box;
 }
 
 .title-image {
     display: block;
     margin: 0 auto;
-	width: 50%;
     max-width: 800px;
+	width: 50%;
     height: auto;
     margin-bottom: 20px;
 }
@@ -62,7 +63,8 @@ body::before {
     background-image: url('header-background.jpg');
     background-size: cover;
     background-blend-mode: overlay;
-    margin: 20;
+    margin: 0;
+	box-sizing: border-box;
 }
 
 /* Navigation */
