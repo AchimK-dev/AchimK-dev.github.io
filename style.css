@@ -33,12 +33,12 @@ body::before {
 
 /* Header */
 .header {
-    position: relative;
+	width: 100vw;
     background-color: rgba(24, 39, 58, 0.8);
     background-image: url('header-background.jpg');
     background-size: cover;
     background-blend-mode: overlay;
-    padding: 40px;
+    padding: 20px;
     text-align: center;
     color: #fff;
     font-size: 2em;
@@ -57,7 +57,7 @@ body::before {
 
 /* Spacebar */
 .spacebar {
-    width: 100%;
+    width: 100vw;
 	padding: 2px;
     background-color: rgba(0, 0, 0, 0.5);
     background-image: url('header-background.jpg');
@@ -70,11 +70,13 @@ body::before {
 /* Navigation */
 .navbar {
     display: flex;
+    justify-content: center;
     background-color: rgba(152, 126, 77, 0.5);
     background-image: url('header-background.jpg');
     background-size: cover;
     background-blend-mode: overlay;
-    justify-content: center;
+    width: 100vw;
+    box-sizing: border-box;
 }
 
 .navbar a {
